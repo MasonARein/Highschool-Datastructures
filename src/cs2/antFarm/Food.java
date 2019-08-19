@@ -10,6 +10,12 @@ public abstract class Food extends Actor implements Processable{
     }
 
     public String toString(){
-        return super.toString() + biteSize;
+        return super.toString() + "Bite Size:" + biteSize;
+    }
+    public void act(){
+
+    }
+    public void process (WorkerAnt s){
+
     }
 }

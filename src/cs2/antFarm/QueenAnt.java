@@ -3,10 +3,15 @@ package cs2.antFarm;
 import java.awt.*;
 
 public class QueenAnt extends Ant {
-    public QueenAnt (){
+    public QueenAnt() {
         this.setColor(Color.MAGENTA);
     }
-    public void process (WorkerAnt s){
 
+    public void process(WorkerAnt s) {
+        setFood(s.getFood() + getFood());
+        s.setFood(0);
+        s.setQueenLoc(this.getLocation());
+        s.setColor(Color.black);
+        s.setNewQueenLoc(s.getNewQueenLoc() + 1);
     }
 }

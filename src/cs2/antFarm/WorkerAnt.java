@@ -8,10 +8,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class WorkerAnt extends Ant {
-    Location queenLoc;
-    Location foodLoc;
-    int newFoodLoc;
-    int newQueenLoc;
+    private Location queenLoc;
+    private Location foodLoc;
+    private int newFoodLoc;
+    private int newQueenLoc;
 
     public WorkerAnt() {
         this.setColor(Color.black);
@@ -39,26 +39,33 @@ public class WorkerAnt extends Ant {
     public void act() {
         Grid gr = this.getGrid();
         Location loc = this.getLocation();
-        Location to;
+        Location to = null;
         if(getFood() == 0 && getFoodLoc() != null){
             to = bestLoc(getFoodLoc());
             if(to.equals(getFoodLoc()) && !(gr.get(to) instanceof Food)){
+                setNewFoodLoc(getNewFoodLoc()+1);
                 setFoodLoc(null);
             }
         }
         else if(getFood() != 0 && getQueenLoc() != null ){
             to = bestLoc(getQueenLoc());
             if(to.equals(getQueenLoc()) && !(gr.get(to) instanceof QueenAnt)){
+                setNewQueenLoc(getNewQueenLoc()+1);
                 setQueenLoc(null);
             }
 
         }
         else{
             ArrayList<Location> locations = gr.getEmptyAdjacentLocations(loc);
-            to = locations.get((int) (Math.random() * locations.size()));
+            if(locations.size() > 0) {
+                to = locations.get((int) (Math.random() * locations.size()));
+            }
+            else{
+                to = getLocation();
+            }
+            this.setDirection(loc.getDirectionToward(to));
         }
-        this.setDirection(loc.getDirectionToward(to));
-        this.moveTo(to);
+            this.moveTo(to);
         ArrayList<Actor> actors = gr.getNeighbors(loc);
         for (Actor a : actors) {
             Processable p = (Processable) a;

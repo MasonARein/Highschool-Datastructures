@@ -1,6 +1,8 @@
 package cs2.arrayList;
 
 import cs2.CS2List;
+
+
 /**
  * Creates a list of objects that can have the size be changed
  *

@@ -28,6 +28,15 @@ public class CS2ArrayListRunner {
             if (it.next() < 0.0) it.remove();
         }
         System.out.println (list);
+        try {
+            it.remove();
+            it.remove();
+        }
+        catch (Exception e) {
+            System.out.println ("Caught error attempting multiple removes");
+            System.out.println (e);
+        }
+
 
     }
 }

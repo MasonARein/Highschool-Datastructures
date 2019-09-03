@@ -3,6 +3,7 @@ package cs2.arrayList.arrayList2;
 import cs2.CS2List;
 
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 
@@ -246,11 +247,15 @@ import java.util.NoSuchElementException;
     public Iterator<E> iterator() {
         return new CS2Iterator();
     }
+    public ListIterator<E> listIterator() {
+        return new CS2Iterator();
+    }
 
-    private class CS2Iterator implements Iterator<E> {
+    private class CS2Iterator implements ListIterator<E> {
 
         private int next;
         private boolean once;
+        private boolean forward;
         public CS2Iterator() {
             next = 0;
             once = false;
@@ -267,28 +272,95 @@ import java.util.NoSuchElementException;
 
         @Override
         public E next() {
-            if(hasNext() == true) {
+            if(hasNext()) {
                 once = true;
                 E obj = CS2ArrayList.this.get(next);
                 next += 1;
+                forward = true;
                 return obj;
             }
             else{
                 throw new NoSuchElementException("No Next Value");
             }
         }
+
+        @Override
+        public boolean hasPrevious() {
+            if (0 < next) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        @Override
+        public E previous() {
+            if(hasPrevious()) {
+                once = true;
+                E obj = CS2ArrayList.this.get(next-1);
+                next -= 1;
+                forward = false;
+                return obj;
+            }
+            else{
+                throw new NoSuchElementException("No Previous Value");
+            }
+        }
+
+        @Override
+        public int nextIndex() {
+            if(hasNext()) {
+                return next;
+            }
+            else{
+                throw new NoSuchElementException("No Next Value");
+            }
+        }
+
+        @Override
+        public int previousIndex() {
+            if(hasPrevious()) {
+                return next - 1;
+            }
+            else{
+                throw new NoSuchElementException("No Previous Value");
+            }
+        }
+
         public void remove(){
             if(CS2ArrayList.this.size() == 0){
                 throw new IllegalArgumentException("Removal from empty list");
             }
-            else if(once == true) {
+            else if(once) {
                 once = false;
-                CS2ArrayList.this.remove(next - 1);
-                next--;
+                if(forward){
+                    CS2ArrayList.this.remove(next-1);
+                    next--;
+                }
+                else{
+                    CS2ArrayList.this.remove(next);
+                    next--;
+                }
             }
             else{
                 throw new IllegalStateException("Remove called twice for single item");
             }
+        }
+
+        @Override
+        public void set(E e) {
+            if(forward){
+                CS2ArrayList.this.set(next-1, e);
+            }
+            else{
+                CS2ArrayList.this.set(next, e);
+            }
+        }
+
+        @Override
+        public void add(E e) {
+                CS2ArrayList.this.add(next, e);
         }
     }
 }

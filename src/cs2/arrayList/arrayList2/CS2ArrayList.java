@@ -87,19 +87,19 @@ import java.util.NoSuchElementException;
      */
     @Override
     public void add(int index, E obj) {
-        if (size() == maxSize()) {
-            expand();
-        } else {
-            if (index > size() - 1 || index < 0) {
-                throw new IndexOutOfBoundsException("Value outside of list size");
-            } else {
+        if (index > mySize || index < 0) {
+            throw new IndexOutOfBoundsException("Value outside of list size");
+        }
+ else {
+            if (size() >= maxSize()) {
+                expand();
+            }
                 for (int i = mySize - 1; i >= index; i--) {
                     myList[i + 1] = myList[i];
 
                 }
                 myList[index] = obj;
                 mySize++;
-            }
         }
     }
 
@@ -350,6 +350,9 @@ import java.util.NoSuchElementException;
 
         @Override
         public void set(E e) {
+            if(!once){
+                throw new IllegalStateException("Set called before Next/Previous called");
+            }
             if(forward){
                 CS2ArrayList.this.set(next-1, e);
             }
@@ -360,7 +363,9 @@ import java.util.NoSuchElementException;
 
         @Override
         public void add(E e) {
-                CS2ArrayList.this.add(next, e);
+            once = false;
+            CS2ArrayList.this.add(next, e);
+            next++;
         }
     }
 }

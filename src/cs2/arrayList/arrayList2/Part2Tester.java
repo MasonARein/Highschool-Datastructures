@@ -213,7 +213,6 @@ public class Part2Tester {
             iter.add(-1.23);
             iter.previous();
             iter.previous();
-            System.out.print(list);
         }
         System.out.println(list.toString());
         System.out.println();

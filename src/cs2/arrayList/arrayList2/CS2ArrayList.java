@@ -68,12 +68,11 @@ import java.util.NoSuchElementException;
      */
     @Override
     public boolean add(E Obj) {
-        if (mySize >= myList.length) {
+        if (size() >= maxSize()) {
             expand();
-        } else {
+        }
             myList[mySize] = Obj;
             mySize++;
-        }
         return true;
     }
 
@@ -115,7 +114,7 @@ import java.util.NoSuchElementException;
             E value = myList[index];
             return value;
         } else {
-            throw new IndexOutOfBoundsException("Place not found in List");
+            throw new IndexOutOfBoundsException("Place not found in List " + index + " " + mySize);
         }
     }
 

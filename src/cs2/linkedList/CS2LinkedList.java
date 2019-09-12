@@ -5,9 +5,11 @@ import cs2.CS2List;
 public class CS2LinkedList<E> implements CS2List<E> {
     private ListNode head;
     private int mySize;
+    private ListNode tail;
     public CS2LinkedList(){
         head = null;
         mySize = 0;
+        tail = null;
     }
 
     @Override
@@ -22,20 +24,29 @@ public class CS2LinkedList<E> implements CS2List<E> {
             head = item;
         }
         else{
-            ListNode pointer = head;
-            while(pointer.getNext() != null){
-                pointer = pointer.getNext();
-            }
-            pointer.next = item;
+            tail.next = item;
         }
+        tail = item;
         mySize++;
         return true;
     }
 
     @Override
     public void add(int index, E obj) {
-        if(size() == 0){
+        if(index < 0 || index > size()){
+            throw new IndexOutOfBoundsException();
+        }
+        else if(size() == 0){
             head = new ListNode(obj);
+        }
+        else if(index == 0){
+            ListNode ut = head;
+            head = new ListNode(obj);
+            head.next = ut;
+        }
+        else if(index == size()-1){
+            tail.next = new ListNode(obj);
+            tail = tail.next;
         }
         else {
             int counter = 0;
@@ -51,8 +62,8 @@ public class CS2LinkedList<E> implements CS2List<E> {
             ListNode it = pointer.next;
             pointer.next = newIt;
             newIt.next = it;
-            mySize++;
         }
+        mySize++;
     }
 
     @Override
@@ -87,18 +98,27 @@ public class CS2LinkedList<E> implements CS2List<E> {
 
     @Override
     public E remove(int index) {
-        if(size() == 0 || index > size()){
+        if(index < 0 || index > size()-1){
             throw new IndexOutOfBoundsException();
         }
         ListNode pointer = head;
+        ListNode last = head;
         int counter = 0;
-        if(index == 0){
+        if(size() == 1){
+            mySize = 0;
+            ListNode joe = head;
+            head = null;
+            return joe.getValue();
+        }
+        else if(index == 0){
             head = pointer.next;
+            mySize--;
             return pointer.getValue();
         }
         else {
             while (pointer != null && counter != index - 1) {
                 counter++;
+                last = pointer;
                 pointer = pointer.getNext();
             }
             if (pointer == null) {
@@ -107,6 +127,9 @@ public class CS2LinkedList<E> implements CS2List<E> {
             ListNode temp = pointer.next;
             pointer.next = pointer.next.next;
             mySize--;
+            if(index == size()-1){
+                tail = last;
+            }
             return temp.getValue();
         }
     }

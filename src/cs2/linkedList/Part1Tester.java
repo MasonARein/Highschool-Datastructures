@@ -80,5 +80,21 @@ public class Part1Tester {
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println("\nAdd to empty list");
+        list.add(0, 25.0);
+        System.out.println(list);
+        System.out.println("\nAdd at head value");
+        list.add(0, 30.0);
+        System.out.println(list);
+        System.out.println("\nAdd at tail value");
+        System.out.println(list.size());
+        list.add(2, 20.0);
+        System.out.println(list.size());
+        System.out.println(list.get(2));
+        System.out.println(list);
+        System.out.println(list.remove(0));
+        System.out.println(list);
+        System.out.println(list.remove(1));
+        System.out.println(list);
     }
 }

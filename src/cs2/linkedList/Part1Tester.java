@@ -96,5 +96,7 @@ public class Part1Tester {
         System.out.println(list);
         System.out.println(list.remove(1));
         System.out.println(list);
+        System.out.println(list.remove(0));
+        System.out.println(list);
     }
 }

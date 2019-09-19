@@ -198,7 +198,14 @@ public class CS2LinkedList2<E> implements CS2List<E>, Iterable<E> {
         }
         @Override
         public E next() {
-            if(hasNext()) {
+            if(next == tail){
+                E ret = next.getValue();
+                prevSec = prev;
+                prev = next;
+                next = null;
+                return ret;
+            }
+            else if(hasNext()) {
                 E ret = next.getValue();
                 prevSec = prev;
                 prev = next;
@@ -210,22 +217,25 @@ public class CS2LinkedList2<E> implements CS2List<E>, Iterable<E> {
             }
         }
         public void remove(){
-            if(prevSec != null) {
-                if(next == head){
-                    head = next.next;
-                    next = next.next;
-                }
-                else if(prev == tail){
+            if(prev == head){
+                head = next;
+                next = prev;
+                prev = null;
+                mySize--;
+            }
+            else if(prevSec != null) {
+                if(prev == tail){
                     prevSec.setNext(null);
                     prev = prevSec;
                     prevSec = null;
+                    mySize--;
                 }
                 else {
-                    prevSec.setNext(prev.getNext());
+                    prevSec.setNext(next);
                     prev = prevSec;
                     prevSec = null;
+                    mySize--;
                 }
-                mySize--;
             }
         }
     }

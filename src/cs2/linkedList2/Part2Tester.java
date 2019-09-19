@@ -14,6 +14,7 @@ public class Part2Tester {
         for (int i=0; i<25; i++) {
             list.add(Math.random());
         }
+        System.out.println(list.size());
 
 
 // print using toString
@@ -37,9 +38,7 @@ public class Part2Tester {
         while (it.hasNext()) {
             if (it.next() > .1) it.remove();
         }
-        for (int i=0; i<list.size(); i++) {
-            System.out.print(list.get(i) + " ");
-        }
+        System.out.println(list);
 
     }
 }

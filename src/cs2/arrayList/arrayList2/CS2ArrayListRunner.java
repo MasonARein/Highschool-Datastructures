@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class CS2ArrayListRunner {
     public static void main(String[] args) {
-        CS2ArrayList<Double> list= new CS2ArrayList<Double>();
+        CS2ArrayList2<Double> list= new CS2ArrayList2<Double>();
 
         // test iterator
 

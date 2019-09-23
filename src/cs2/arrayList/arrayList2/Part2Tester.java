@@ -8,7 +8,7 @@ public class Part2Tester {
 
         // test constructor
         System.out.println("Create new empty list: {} and 0:");
-        CS2ArrayList<Double> list = new CS2ArrayList<Double>();
+        CS2ArrayList2<Double> list = new CS2ArrayList2<Double>();
         System.out.println(list);
         System.out.println(list.size());
 
@@ -144,7 +144,7 @@ public class Part2Tester {
 
         // testing listIterator
 
-        list = new CS2ArrayList<Double>();
+        list = new CS2ArrayList2<Double>();
         for (int i=0; i<5; i++) list.add (Math.random());
         System.out.println("\nNew Test List: "+list);
 

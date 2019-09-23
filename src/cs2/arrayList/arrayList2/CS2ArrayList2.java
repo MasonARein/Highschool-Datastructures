@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
  * @author marein01
  *
  */
-    public class CS2ArrayList<E> implements CS2List<E>, Iterable<E> {
+    public class CS2ArrayList2<E> implements CS2List<E>, Iterable<E> {
 
     private int mySize;
     private E[] myList;
@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
      * Sets the current available size of the CS2ArrayList and the current size of the list
      * being used
      */
-    public CS2ArrayList() {
+    public CS2ArrayList2() {
         mySize = 0;
         myList = (E[]) new Object[20];
     }
@@ -175,7 +175,7 @@ import java.util.NoSuchElementException;
      * @param exe The  CS2ArrayList that is being compared to the current CS2ArrayList
      * @return true if all of the values in the two CS2ArrayLists are the same
      */
-    public boolean equals(CS2ArrayList exe) {
+    public boolean equals(CS2ArrayList2 exe) {
         if (this.mySize != exe.mySize) {
             return false;
         }
@@ -261,7 +261,7 @@ import java.util.NoSuchElementException;
         }
         @Override
         public boolean hasNext() {
-            if (CS2ArrayList.this.mySize > next) {
+            if (CS2ArrayList2.this.mySize > next) {
                 return true;
             }
             else {
@@ -273,7 +273,7 @@ import java.util.NoSuchElementException;
         public E next() {
             if(hasNext()) {
                 once = true;
-                E obj = CS2ArrayList.this.get(next);
+                E obj = CS2ArrayList2.this.get(next);
                 next += 1;
                 forward = true;
                 return obj;
@@ -297,7 +297,7 @@ import java.util.NoSuchElementException;
         public E previous() {
             if(hasPrevious()) {
                 once = true;
-                E obj = CS2ArrayList.this.get(next-1);
+                E obj = CS2ArrayList2.this.get(next-1);
                 next -= 1;
                 forward = false;
                 return obj;
@@ -328,17 +328,17 @@ import java.util.NoSuchElementException;
         }
 
         public void remove(){
-            if(CS2ArrayList.this.size() == 0){
+            if(CS2ArrayList2.this.size() == 0){
                 throw new IllegalArgumentException("Removal from empty list");
             }
             else if(once) {
                 once = false;
                 if(forward){
-                    CS2ArrayList.this.remove(next-1);
+                    CS2ArrayList2.this.remove(next-1);
                     next--;
                 }
                 else{
-                    CS2ArrayList.this.remove(next);
+                    CS2ArrayList2.this.remove(next);
                     next--;
                 }
             }
@@ -353,17 +353,17 @@ import java.util.NoSuchElementException;
                 throw new IllegalStateException("Set called before Next/Previous called");
             }
             if(forward){
-                CS2ArrayList.this.set(next-1, e);
+                CS2ArrayList2.this.set(next-1, e);
             }
             else{
-                CS2ArrayList.this.set(next, e);
+                CS2ArrayList2.this.set(next, e);
             }
         }
 
         @Override
         public void add(E e) {
             once = false;
-            CS2ArrayList.this.add(next, e);
+            CS2ArrayList2.this.add(next, e);
             next++;
         }
     }

@@ -61,10 +61,9 @@ import cs2.CS2List;
         public boolean add(E Obj) {
             if (mySize >= myList.length) {
                 expand();
-            } else {
+            }
                 myList[mySize] = Obj;
                 mySize++;
-            }
             return true;
         }
 	/** Takes in a place and a value and sets that value to the place and moves down
@@ -80,7 +79,7 @@ import cs2.CS2List;
                 expand();
             }
             else {
-                if (index > size() - 1 || index < 0) {
+                if (index > size() || index < 0) {
                     throw new IndexOutOfBoundsException("Value outside of list size");
                 } else {
                     for (int i = mySize-1; i >= index; i--) {

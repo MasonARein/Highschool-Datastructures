@@ -3,7 +3,7 @@ package cs2.arrayList.arrayList2;
 public class GetTimer {
     public static void main(String[] args) {
         // create a new arraylist
-        CS2ArrayList<Double> list = new CS2ArrayList<Double>();
+        CS2ArrayList2<Double> list = new CS2ArrayList2<Double>();
         int n = 1000;                    // list size
         long trials = 10000000;          // number of trials
 

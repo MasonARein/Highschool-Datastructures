@@ -1,6 +1,7 @@
 package cs2.bst;
 
 import javax.swing.tree.TreeNode;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -65,17 +66,25 @@ public class BST <E extends Comparable<E>> {
         this.root = root;
     }
     private TreeNode root;
+
+    public int size() {
+        return size;
+    }
+    private int size;
     public BST(){
         root = null;
+        size = 0;
     }
     public boolean add(E value){
         if (root == null) {
             root = new TreeNode (value);
+            size++;
             return true;
         }
         else {
             return add (root, new TreeNode(value));
         }
+
     }
     private boolean add (TreeNode subRoot, TreeNode node) {
         if(subRoot.equals(node)){
@@ -100,6 +109,7 @@ public class BST <E extends Comparable<E>> {
                     return add(subRoot.getLeft(), node);
                 }
             }
+            size++;
             return true;
         }
     }
@@ -206,30 +216,110 @@ public class BST <E extends Comparable<E>> {
             preOrderTraversal(subRoot.getLeft(), list);
         }
     }
-    public int size() {
+    public String toString(){
+        if(root == null){
+            return "";
+        }
+        else{
+            return toString(root, 0);
+        }
+
+    }
+    private String toString(TreeNode subRoot, int level){
+        String str = "";
+        if(subRoot != null){
+            if(subRoot.getLeft() != null){
+                str = str + toString(subRoot.getLeft(), level+1);
+            }
+            str += "\n";
+            for(int a = 0; a < level; a++){
+                str += "-";
+            }
+            str += subRoot.getValue();
+            if(subRoot.getRight() != null){
+                str = str + toString(subRoot.getRight(), level+1);
+            }
+            return str;
+        }
+        else{
+            return str;
+        }
+    }
+    public int recurSize() {
         if (root == null) {
             return -1;
         }
         else {
-            return size(root, 0);
+            return recurSize(root, 0);
         }
     }
-    private int size(TreeNode node, int size){
+    private int recurSize(TreeNode node, int size){
         if(node.getLeft() != null){
-            size += size(node.getLeft(), size);
+            size += recurSize(node.getLeft(), size);
         }
         if(node.getRight() != null){
-            size += size(node.getRight(), size);
+            size += recurSize(node.getRight(), size);
         }
         if(node.getRight() == null && node.getLeft() == null){
             return 1;
         }
         return size;
     }
-    public String toString(){
-        return toString("");
+    public void clear(){
+        root = null;
+        size = 0;
     }
-    private String toString(String str){
-        return "";
+    public boolean remove(E val){
+        if(root == null){
+            return false;
+        }
+        else{
+            return remove(root, new TreeNode(val));
+        }
     }
+    private boolean remove(TreeNode subRoot, TreeNode node){
+        if(node.equals(subRoot)){
+            if(subRoot.getRight() == null && subRoot.getLeft() == null){
+                if(subRoot.getParent().getLeft().equals(subRoot)){
+                    subRoot.getParent().setLeft(null);
+                }
+                else{
+                    subRoot.getParent().setRight(null);
+                }
+            }
+            else if(subRoot.getRight() != null && subRoot.getLeft() != null){
+
+            }
+            else{
+                if(subRoot.getLeft() == null){
+                    if(subRoot.getParent().getLeft().equals(subRoot)){
+                        subRoot.getParent().setLeft(subRoot.getRight());
+                    }
+                    else{
+                        subRoot.getParent().setRight(subRoot.getRight());
+                    }
+                }
+                else{
+                    if(subRoot.getParent().getLeft().equals(subRoot)){
+                        subRoot.getParent().setLeft(subRoot.getLeft());
+                    }
+                    else{
+                        subRoot.getParent().setRight(subRoot.getLeft());
+                    }
+                }
+            }
+        }
+        else if(node.compareTo(subRoot) < 0){
+            return remove(subRoot.getLeft(), node);
+        }
+        else if(node.compareTo(subRoot) > 0){
+            return remove(subRoot.getRight(), node);
+        }
+        else{
+            return false;
+        }
+        return true;
+    }
+
+
 }

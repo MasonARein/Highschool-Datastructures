@@ -278,17 +278,31 @@ public class BST <E extends Comparable<E>> {
         }
     }
     private boolean remove(TreeNode subRoot, TreeNode node){
-        if(node.equals(subRoot)){
+        if(node == subRoot){
             if(subRoot.getRight() == null && subRoot.getLeft() == null){
-                if(subRoot.getParent().getLeft().equals(subRoot)){
-                    subRoot.getParent().setLeft(null);
+                if(subRoot.getParent().getRight().equals(subRoot)){
+                    subRoot.getParent().setRight(null);
                 }
                 else{
-                    subRoot.getParent().setRight(null);
+                    subRoot.getParent().setLeft(null);
                 }
             }
             else if(subRoot.getRight() != null && subRoot.getLeft() != null){
-
+                TreeNode tracer = subRoot.getLeft();
+                while(tracer.getRight() != null){
+                    tracer = tracer.getRight();
+                }
+                tracer.getParent().setRight(null);
+                if(subRoot.getParent().getRight().equals(subRoot)){
+                    tracer.setRight(subRoot.getRight());
+                    tracer.setLeft(subRoot.getLeft());
+                    subRoot.getParent().setRight(tracer);
+                }
+                else{
+                    tracer.setRight(subRoot.getRight());
+                    tracer.setLeft(subRoot.getLeft());
+                    subRoot.getParent().setLeft(tracer);
+                }
             }
             else{
                 if(subRoot.getLeft() == null){
@@ -318,6 +332,7 @@ public class BST <E extends Comparable<E>> {
         else{
             return false;
         }
+        size--;
         return true;
     }
 

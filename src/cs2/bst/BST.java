@@ -218,7 +218,7 @@ public class BST <E extends Comparable<E>> {
     }
     public String toString(){
         if(root == null){
-            return "";
+            return "Empty Tree";
         }
         else{
             return toString(root, 0);
@@ -233,7 +233,7 @@ public class BST <E extends Comparable<E>> {
             }
             str += "\n";
             for(int a = 0; a < level; a++){
-                str += "-";
+                str += "- ";
             }
             str += subRoot.getValue();
             if(subRoot.getRight() != null){
@@ -278,56 +278,51 @@ public class BST <E extends Comparable<E>> {
         }
     }
     private boolean remove(TreeNode subRoot, TreeNode node){
-        if(node == subRoot){
-            if(subRoot.getRight() == null && subRoot.getLeft() == null){
-                if(subRoot.getParent().getRight().equals(subRoot)){
+        if(subRoot==null){
+            return false;
+        }
+        if(node.equals(subRoot)){
+            if(subRoot.getRight()==null && subRoot.getLeft()==null){
+                if(subRoot.getParent().getRight() == subRoot){
                     subRoot.getParent().setRight(null);
                 }
                 else{
                     subRoot.getParent().setLeft(null);
                 }
             }
-            else if(subRoot.getRight() != null && subRoot.getLeft() != null){
-                TreeNode tracer = subRoot.getLeft();
-                while(tracer.getRight() != null){
-                    tracer = tracer.getRight();
-                }
-                tracer.getParent().setRight(null);
-                if(subRoot.getParent().getRight().equals(subRoot)){
-                    tracer.setRight(subRoot.getRight());
-                    tracer.setLeft(subRoot.getLeft());
-                    subRoot.getParent().setRight(tracer);
+            else if(subRoot.getRight()==null){
+                if(subRoot.getParent().getRight() == subRoot){
+                    subRoot.getParent().setRight(subRoot.getLeft());
+                    subRoot.getLeft().setParent(subRoot.getParent());
                 }
                 else{
-                    tracer.setRight(subRoot.getRight());
-                    tracer.setLeft(subRoot.getLeft());
-                    subRoot.getParent().setLeft(tracer);
+                    subRoot.getParent().setLeft(subRoot.getLeft());
+                    subRoot.getLeft().setParent(subRoot.getParent());
+                }
+            }
+            else if(subRoot.getLeft()==null){
+                if(subRoot.getParent().getRight() == subRoot){
+                    subRoot.getParent().setRight(subRoot.getRight());
+                    subRoot.getRight().setParent(subRoot.getParent());
+                }
+                else{
+                    subRoot.getParent().setLeft(subRoot.getRight());
+                    subRoot.getRight().setParent(subRoot.getParent());
                 }
             }
             else{
-                if(subRoot.getLeft() == null){
-                    if(subRoot.getParent().getLeft().equals(subRoot)){
-                        subRoot.getParent().setLeft(subRoot.getRight());
-                    }
-                    else{
-                        subRoot.getParent().setRight(subRoot.getRight());
-                    }
+                TreeNode left = subRoot.getLeft();
+                while(left.getRight() != null){
+                    left=left.getRight();
                 }
-                else{
-                    if(subRoot.getParent().getLeft().equals(subRoot)){
-                        subRoot.getParent().setLeft(subRoot.getLeft());
-                    }
-                    else{
-                        subRoot.getParent().setRight(subRoot.getLeft());
-                    }
-                }
+
             }
         }
-        else if(node.compareTo(subRoot) < 0){
-            return remove(subRoot.getLeft(), node);
+        else if(node.compareTo(subRoot)<0){
+            return remove(subRoot.getLeft(),node);
         }
-        else if(node.compareTo(subRoot) > 0){
-            return remove(subRoot.getRight(), node);
+        else if(node.compareTo(subRoot)>0){
+            return remove(subRoot.getRight(),node);
         }
         else{
             return false;

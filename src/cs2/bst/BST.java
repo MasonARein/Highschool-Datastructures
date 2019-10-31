@@ -21,7 +21,7 @@ public class BST <E extends Comparable<E>> {
             return vale.getValue().equals(value);
         }
         public int compareTo(TreeNode vale){
-            return vale.getValue().compareTo(value);
+            return value.compareTo(vale.getValue());
         }
         public E getValue() {
             return value;
@@ -228,16 +228,16 @@ public class BST <E extends Comparable<E>> {
     private String toString(TreeNode subRoot, int level){
         String str = "";
         if(subRoot != null){
-            if(subRoot.getLeft() != null){
-                str = str + toString(subRoot.getLeft(), level+1);
+            if(subRoot.getRight() != null){
+                str = str + toString(subRoot.getRight(), level+1);
             }
             str += "\n";
             for(int a = 0; a < level; a++){
                 str += "- ";
             }
             str += subRoot.getValue();
-            if(subRoot.getRight() != null){
-                str = str + toString(subRoot.getRight(), level+1);
+            if(subRoot.getLeft() != null){
+                str = str + toString(subRoot.getLeft(), level+1);
             }
             return str;
         }
@@ -278,6 +278,7 @@ public class BST <E extends Comparable<E>> {
         }
     }
     private boolean remove(TreeNode subRoot, TreeNode node){
+
         if(subRoot==null){
             return false;
         }
@@ -291,6 +292,10 @@ public class BST <E extends Comparable<E>> {
                 }
             }
             else if(subRoot.getRight()==null){
+                if(subRoot.equals(root)){
+                    root = root.getLeft();
+                    return true;
+                }
                 if(subRoot.getParent().getRight() == subRoot){
                     subRoot.getParent().setRight(subRoot.getLeft());
                     subRoot.getLeft().setParent(subRoot.getParent());
@@ -301,6 +306,12 @@ public class BST <E extends Comparable<E>> {
                 }
             }
             else if(subRoot.getLeft()==null){
+
+                if(subRoot.equals(root)) {
+                    root = root.getRight();
+                    return true;
+                }
+
                 if(subRoot.getParent().getRight() == subRoot){
                     subRoot.getParent().setRight(subRoot.getRight());
                     subRoot.getRight().setParent(subRoot.getParent());
@@ -315,7 +326,9 @@ public class BST <E extends Comparable<E>> {
                 while(left.getRight() != null){
                     left=left.getRight();
                 }
-
+                subRoot.setValue(left.getValue());
+                //System.out.println("TREE: "+this);
+                remove(subRoot.getLeft(),subRoot);
             }
         }
         else if(node.compareTo(subRoot)<0){

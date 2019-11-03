@@ -19,6 +19,8 @@ public class BSTPart2Tester {
         vals = new int[] {2, 1, 7, 4, 9, 3, 6, 8, 5};
         for (int i: vals) tree.add (i);
         System.out.println ("Size is: " + tree.size());
+        System.out.println ("Size is: " + tree.size());
+
         System.out.println (tree);
 
         // removals
@@ -40,7 +42,6 @@ public class BSTPart2Tester {
         System.out.println("Restoring tree...");
         tree.clear();
         for (int i: vals) tree.add (i);
-
         System.out.print("Removed two-child node (4): ");
         System.out.println(tree.remove(4));
         System.out.println ("Size is: " + tree.size());
@@ -68,18 +69,19 @@ public class BSTPart2Tester {
         System.out.println("Remove remaining values");
         for (int i=3; i<=9; i++) {
             System.out.println("Remove " + i + ": " + tree.remove(i));
+            System.out.println ("Root is: " + tree.getRoot());
             System.out.println("Size is: " + tree.size());
             System.out.println(tree);
         }
-//
-//        System.out.println("\nRestoring tree...");
-//        tree.clear();
-//        for (int i: vals) tree.add (i);
-//        System.out.println(tree);
-//
-//        System.out.println("Testing iterator with enhanced-for");
-//        for (Integer i: tree) {
-//            System.out.print(i+ " ");
-//        }
+
+        System.out.println("\nRestoring tree...");
+        tree.clear();
+        for (int i: vals) tree.add (i);
+        System.out.println(tree);
+
+        System.out.println("Testing iterator with enhanced-for");
+        for (Integer i: tree) {
+            System.out.print(i+ " ");
+        }
     }
 }

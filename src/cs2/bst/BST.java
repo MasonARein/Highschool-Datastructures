@@ -1,11 +1,10 @@
 package cs2.bst;
 
-import javax.swing.tree.TreeNode;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BST <E extends Comparable<E>> {
+public class BST <E extends Comparable<E>> implements Iterable<E>{
     private class TreeNode implements Comparable<TreeNode>{
         private E value;
         private TreeNode left;
@@ -160,18 +159,19 @@ public class BST <E extends Comparable<E>> {
             }
         }
     }
+
     public List<E> inOrderTraversal() {
         List<E> list = new LinkedList<E>();
         inOrderTraversal (root, list);
         return list;
     }
     private void inOrderTraversal(TreeNode subRoot, List<E> list) {
-        if(subRoot.getRight() != null){
-            inOrderTraversal(subRoot.getRight(), list);
-        }
-        list.add(subRoot.getValue());
         if(subRoot.getLeft() != null){
             inOrderTraversal(subRoot.getLeft(), list);
+        }
+        list.add(subRoot.getValue());
+        if(subRoot.getRight() != null){
+            inOrderTraversal(subRoot.getRight(), list);
         }
     }
     public List<E> reverseOrderTraversal() {
@@ -180,12 +180,12 @@ public class BST <E extends Comparable<E>> {
         return list;
     }
     private void reverseOrderTraversal(TreeNode subRoot, List<E> list) {
-        if(subRoot.getLeft() != null){
-            reverseOrderTraversal(subRoot.getLeft(), list);
-        }
-        list.add(subRoot.getValue());
         if(subRoot.getRight() != null){
             reverseOrderTraversal(subRoot.getRight(), list);
+        }
+        list.add(subRoot.getValue());
+        if(subRoot.getLeft() != null){
+            reverseOrderTraversal(subRoot.getLeft(), list);
         }
     }
     public List<E> postOrderTraversal() {
@@ -194,11 +194,11 @@ public class BST <E extends Comparable<E>> {
         return list;
     }
     private void postOrderTraversal(TreeNode subRoot, List<E> list) {
-        if(subRoot.getRight() != null){
-            postOrderTraversal(subRoot.getRight(), list);
-        }
         if(subRoot.getLeft() != null){
             postOrderTraversal(subRoot.getLeft(), list);
+        }
+        if(subRoot.getRight() != null){
+            postOrderTraversal(subRoot.getRight(), list);
         }
         list.add(subRoot.getValue());
     }
@@ -209,11 +209,11 @@ public class BST <E extends Comparable<E>> {
     }
     private void preOrderTraversal(TreeNode subRoot, List<E> list) {
         list.add(subRoot.getValue());
-        if(subRoot.getRight() != null){
-            preOrderTraversal(subRoot.getRight(), list);
-        }
         if(subRoot.getLeft() != null){
             preOrderTraversal(subRoot.getLeft(), list);
+        }
+        if(subRoot.getRight() != null){
+            preOrderTraversal(subRoot.getRight(), list);
         }
     }
     public String toString(){
@@ -284,16 +284,20 @@ public class BST <E extends Comparable<E>> {
         }
         if(node.equals(subRoot)){
             if(subRoot.getRight()==null && subRoot.getLeft()==null){
-                if(subRoot.getParent().getRight() == subRoot){
+                if(subRoot.equals(root) && size == 1){
+                    root = null;
+                }
+                else if(subRoot.getParent().getRight() == subRoot){
                     subRoot.getParent().setRight(null);
                 }
-                else{
+                else if(subRoot.getParent().getLeft() == subRoot){
                     subRoot.getParent().setLeft(null);
                 }
             }
             else if(subRoot.getRight()==null){
                 if(subRoot.equals(root)){
                     root = root.getLeft();
+                    size--;
                     return true;
                 }
                 if(subRoot.getParent().getRight() == subRoot){
@@ -309,6 +313,7 @@ public class BST <E extends Comparable<E>> {
 
                 if(subRoot.equals(root)) {
                     root = root.getRight();
+                    size--;
                     return true;
                 }
 
@@ -329,6 +334,7 @@ public class BST <E extends Comparable<E>> {
                 subRoot.setValue(left.getValue());
                 //System.out.println("TREE: "+this);
                 remove(subRoot.getLeft(),subRoot);
+                size++;
             }
         }
         else if(node.compareTo(subRoot)<0){
@@ -343,6 +349,47 @@ public class BST <E extends Comparable<E>> {
         size--;
         return true;
     }
+    public Iterator<E> iterator () {
+        return new CS2TreeIterator();
+    }
 
+    private class CS2TreeIterator implements Iterator<E>{
+        private E next;
+        private E prev;
+        private List content;
+        private int count;
 
+        public CS2TreeIterator(){
+                content = inOrderTraversal();
+                count = 0;
+                next = (E)content.get(count);
+                prev = null;
+
+        }
+        public boolean hasNext(){
+            if(next != null){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        public E next(){
+            if(hasNext() && size()-1 == count){
+                E temp = next;
+                prev = next;
+                next = null;
+                return temp;
+            }
+            if(hasNext()) {
+                prev = next;
+                E temp = next;
+                count++;
+                next = (E) content.get(count);
+                return temp;
+            }
+            return null;
+        }
+
+    }
 }

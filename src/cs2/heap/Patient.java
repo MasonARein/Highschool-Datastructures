@@ -26,10 +26,12 @@ public class Patient implements Comparable<Patient> {
 
     private String name;
     private int condition;
+    private long time;
 
     public Patient(String name, int condition){
         this.name = name;
         this.condition = condition;
+        this.time = System.nanoTime();
     }
 
     public int getCondition() {
@@ -40,6 +42,8 @@ public class Patient implements Comparable<Patient> {
         return name;
     }
 
+    public long getTime(){return time;}
+
     public int compareTo(Patient other) {
         int comp;
         if (sortBy == BY_NAME) {
@@ -47,6 +51,9 @@ public class Patient implements Comparable<Patient> {
         }
         else {
             comp = this.condition - other.condition;
+            if(comp == 0){
+                comp = (int)(this.time - other.time);
+            }
         }
 
         if (dir == ASC) {

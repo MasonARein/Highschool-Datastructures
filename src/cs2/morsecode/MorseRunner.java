@@ -19,9 +19,7 @@ public class MorseRunner {
             System.out.println("file not found");
             return;
         }
-        for(String s: morse.keySet()){
-            System.out.println(s + " " + morse.get(s));
-        }
+            System.out.println(morse);
         boolean loop = true;
         while(loop) {
             System.out.println("Enter phrase for translation");

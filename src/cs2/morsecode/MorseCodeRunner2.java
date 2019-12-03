@@ -1,30 +1,31 @@
 package cs2.morsecode;
 
 import java.io.File;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class MorseCodeRunner2 {
     public static void main(String[] args) {
-        String[] listed = new String[66];
-        Map<String, Integer> morse = new TreeMap<String, Integer>();
+        String[] listed = new String[126];
         try {
             Scanner sc = new Scanner(new File("MorseCode.txt"));
-            int count = 0;
             while (sc.hasNext()) {
                 String str = sc.nextLine();
-                morse.put(str.substring(0, 1), count);
-                listed[count] = str.substring(1);
-                count++;
+                listed[(int)str.charAt(0)] = str.substring(2);
+                try{
+                    listed[(int)str.substring(0, 1).toLowerCase().charAt(0)] = str.substring(2);
+                }
+                catch(Exception e){
+
+                }
             }
             sc.close();
         } catch (Exception e) {
-            System.out.println("file not found");
-            return;
+          System.out.println("file not found");
+          return;
         }
-        for(String s: morse.keySet()){
-            System.out.println(s + " " + morse.get(s));
+        for(int x = 0; x < listed.length; x++){
+            System.out.println((char)x + " " + x + " " + listed[x]);
         }
         boolean loop = true;
         while(loop) {
@@ -32,12 +33,12 @@ public class MorseCodeRunner2 {
             Scanner ac = new Scanner(System.in);
             String a = ac.nextLine();
             for (int i = 0; i < a.length(); i++) {
-                String g = String.valueOf(a.charAt(i));
-                g = g.toUpperCase();
-                if (morse.get(g) == null) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print(listed[morse.get(g)] + " ");
+                int g = (int) a.charAt(i);
+                if(g == 32){
+                    System.out.print("  ");
+                }
+                else if(listed[g] != null) {
+                    System.out.print(listed[g] + " ");
                 }
             }
             System.out.println("Another phrase Y/N");
